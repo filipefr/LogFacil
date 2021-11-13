@@ -1,0 +1,25 @@
+INSERT INTO dim_data (nk_data, dia, mes, ano)
+SELECT 
+	nk_data, 
+	extract(day from nk_data) as dia,
+	extract(month from nk_data) as mes,
+	extract(year from nk_data) as ano
+FROM (
+	---incluir aqui a data de início do script, criaremos 15 anos de datas
+	select '2020-01-01'::date + sequence.day as nk_data
+	from generate_series(0,5479) as sequence(day)
+	group by sequence.day
+	order by 1
+) as tabela_datas;
+
+SELECT * FROM dim_data
+
+SELECT * FROM dim_cliente
+
+SELECT * FROM dim_motivo
+
+SELECT * FROM dim_tecnico
+
+SELECT * FROM fato_reclamacao
+
+truncate table dim_tecnico cascade
